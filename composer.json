@@ -1,0 +1,27 @@
+{
+	"name" : "orpheus/orpheus-hook",
+	"description" : "Orpheus Hook",
+	"keywords" : [
+		"orpheus",
+		"hook",
+		"event"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Orpheus\\" : "src"
+		},
+		"files" : [
+			"src/_loader.php"
+		]
+	},
+	"type" : "library",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Florent HAZARD",
+			"email" : "contact@sowapps.com",
+			"homepage" : "http://sowapps.com",
+			"role" : "Developer"
+		}
+	],
+	"homepage" : "https://github.com/Sowapps/orpheus-hook"
+}

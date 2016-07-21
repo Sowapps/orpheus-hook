@@ -1,6 +1,11 @@
 <?php
 use Orpheus\Hook\Hook;
 
+if( !defined('ORPHEUSPATH') ) {
+	// Do not load in a non-orpheus environment
+	return;
+}
+
 /**
  * Loader File for the hooks sources
  */

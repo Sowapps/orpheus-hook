@@ -1,4 +1,12 @@
 <?php
+/**
+ * Loader file for HOOK
+ * 
+ * Define some default hooks
+ * 
+ * @author Florent Hazard <contact@sowapps.com>
+ */
+
 use Orpheus\Hook\Hook;
 
 if( !defined('ORPHEUSPATH') ) {

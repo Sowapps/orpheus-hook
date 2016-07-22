@@ -1,35 +1,59 @@
 <?php
+/**
+ * Hook
+ */
+
 namespace Orpheus\Hook;
 
 /**
- * The hook class
+ * The Hook class
  * 
  * This class is used by the core to trigger event with custom callbacks.
 */
 class Hook {
 	
+	/**
+	 * The registered hooks
+	 * 
+	 * @var array
+	 */
 	protected static $hooks = array();//< A global array containing all registered hooks.
 	
+	/**
+	 * The name of this hook
+	 * 
+	 * @var string
+	 */
 	protected $name;
+	
+	/**
+	 * The registered callback for this hook
+	 * 
+	 * @var array
+	 */
 	protected $callbacks = array();
 	
-	/** Constructor
+	/**
+	 * Constructor
 	 * 
 	 * @param $name The name of the new hook.
-	*/
+	 */
 	protected function __construct($name) {
 		$this->name = $name;
 	}
 	
-	/** Register a new callback for this hook.
+	/**
+	 * Register a new callback for this hook.
 	 * 
-	 * @param $callback A callback.
-	 * @sa register()
-	 * @sa http://php.net/manual/en/language.pseudo-types.php#language.types.callback
+	 * @param callback $callback A callback.
+	 * @throws \Exception
+	 * @return \Orpheus\Hook\Hook
+	 * @see register()
+	 * @see http://php.net/manual/en/language.pseudo-types.php#language.types.callback
 	 * 
 	 * Registers the $callback associating with this hook.
 	 * The callback will be called when this hook will be triggered.
-	*/
+	 */
 	public function registerHook($callback) {
 		if( !is_callable($callback) ) {
 			throw new \Exception('Callback not callable');
@@ -38,15 +62,17 @@ class Hook {
 			throw new \Exception('Callback already registered');
 		}
 		$this->callbacks[] = $callback;
+		return $this;
 	}
 	
-	/** Trigger this hook.
+	/**
+	 * Trigger this hook.
 	 * 
-	 * @param $params A callback.
-	 * @return The first param as result.
-	 * @sa trigger()
+	 * @param array $params Params sent to the callback.
+	 * @return mixed The first param as result.
+	 * @see trigger()
 	 * 
-	 * Triggers this hook calling all associated callbacks.
+	 * Trigger this hook calling all associated callbacks.
 	 * $params array is passed to the callback as its arguments.
 	 * The first parameter, $params[0], is considered as the result of the trigger.
 	 * If $params is not an array, its value is assigned to the second value of a new $params array.
@@ -70,21 +96,23 @@ class Hook {
 		return isset($params[0]) ? $params[0] : null;
 	}
 	
-	/** Get slug
+	/**
+	 * Convert name to slug
 	 * 
-	 * @param $name The hook name.
-	 * @return The slug name.
+	 * @param string $name The hook name.
+	 * @return string The slug name.
 	 * 
-	 * Extracts the slug of a hook name.
+	 * Extract the slug of a hook name.
 	*/
 	protected static function slug($name) {
 		return strtolower($name);
 	}
 	
-	/** Create new Hook
+	/**
+	 * Create new Hook
 	 * 
-	 * @param $name The new hook name.
-	 * @return The new hook.
+	 * @param string $name The new hook name.
+	 * @return Hook The new hook.
 	*/
 	public static function create($name) {
 		$name = static::slug($name);
@@ -92,11 +120,13 @@ class Hook {
 		return self::$hooks[$name];
 	}
 	
-	/** Register a callback
+	/**
+	 * Register a callback
 	 * 
-	 * @param $name The hook name.
-	 * @param $callback The new callback.
-	 * @return The registerHook() result, usually null.
+	 * @param string $name The hook name.
+	 * @param callback $callback The new callback.
+	 * @throws \Exception
+	 * @return \Orpheus\Hook\Hook
 	 * 
 	 * Add the callback to those of the hook.
 	*/
@@ -108,7 +138,8 @@ class Hook {
 		return static::$hooks[$name]->registerHook($callback);
 	}
 	
-	/** Trigger a hook by name
+	/**
+	 * Trigger a hook by name
 	 * 
 	 * @param string $name The hook name.
 	 * @param boolean $silent Make it silent, no exception thrown. Default value is false.
@@ -116,6 +147,7 @@ class Hook {
 	 * 
 	 * Trigger the hook named $name.
 	 * e.g trigger('MyHook', true, $parameter1); trigger('MyHook', $parameter1, $parameter2);
+	 * We advise to always provide $silent parameters if you pass additional parameters to the callback
 	*/
 	public static function trigger($name, $silent=false) {
 		$name = static::slug($name);

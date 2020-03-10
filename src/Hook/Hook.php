@@ -79,13 +79,13 @@ class Hook {
 	*/
 	public function triggerHook($params=NULL) {
 		if( !isset($params) ) {
-			$params = array(
+			$params = [
 				0 => null,
-			);
-		} else if( !is_array($params) ) {
-			$params = array(
+			];
+		} elseif( !is_array($params) ) {
+			$params = [
 				0 => $params,
-			); 
+			];
 		}
 		foreach($this->callbacks as $callback) {
 			$r	= call_user_func_array($callback, $params);

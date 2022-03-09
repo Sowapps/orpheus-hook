@@ -9,7 +9,7 @@
 
 use Orpheus\Hook\Hook;
 
-if( !defined('ORPHEUSPATH') ) {
+if( !defined('ORPHEUS_PATH') ) {
 	// Do not load in a non-orpheus environment
 	return;
 }
